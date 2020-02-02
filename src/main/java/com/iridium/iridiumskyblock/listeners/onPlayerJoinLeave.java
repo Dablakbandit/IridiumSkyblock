@@ -21,11 +21,6 @@ public class onPlayerJoinLeave implements Listener {
         User u = User.getUser(e.getPlayer());
         u.name = e.getPlayer().getName();
 
-        if (u.flying && (u.getIsland() == null || u.getIsland().getFlightBooster() == 0)) {
-            e.getPlayer().setAllowFlight(false);
-            e.getPlayer().setFlying(false);
-            u.flying = false;
-        }
         u.bypassing = false;
         Island island = IridiumSkyblock.getIslandManager().getIslandViaLocation(e.getPlayer().getLocation());
         if (island != null) {

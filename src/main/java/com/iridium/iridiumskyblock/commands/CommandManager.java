@@ -23,46 +23,35 @@ public class CommandManager implements CommandExecutor, TabCompleter {
 
     public void registerCommands() {
         registerCommand(IridiumSkyblock.getCommands().aboutCommand);
-        registerCommand(IridiumSkyblock.getCommands().boosterCommand);
         registerCommand(IridiumSkyblock.getCommands().bypassCommand);
         registerCommand(IridiumSkyblock.getCommands().createCommand);
-        registerCommand(IridiumSkyblock.getCommands().crystalsCommand);
         registerCommand(IridiumSkyblock.getCommands().deleteCommand);
-        registerCommand(IridiumSkyblock.getCommands().flyCommand);
         registerCommand(IridiumSkyblock.getCommands().homeCommand);
         registerCommand(IridiumSkyblock.getCommands().inviteCommand);
         registerCommand(IridiumSkyblock.getCommands().joinCommand);
         registerCommand(IridiumSkyblock.getCommands().kickCommand);
         registerCommand(IridiumSkyblock.getCommands().leaveCommand);
         registerCommand(IridiumSkyblock.getCommands().membersCommand);
-        registerCommand(IridiumSkyblock.getCommands().missionsCommand);
         registerCommand(IridiumSkyblock.getCommands().privateCommand);
         registerCommand(IridiumSkyblock.getCommands().publicCommand);
         registerCommand(IridiumSkyblock.getCommands().regenCommand);
         registerCommand(IridiumSkyblock.getCommands().reloadCommand);
         registerCommand(IridiumSkyblock.getCommands().topCommand);
-        registerCommand(IridiumSkyblock.getCommands().upgradeCommand);
         registerCommand(IridiumSkyblock.getCommands().valueCommand);
         registerCommand(IridiumSkyblock.getCommands().visitCommand);
         registerCommand(IridiumSkyblock.getCommands().warpCommand);
         registerCommand(IridiumSkyblock.getCommands().warpsCommand);
-        registerCommand(IridiumSkyblock.getCommands().giveCrystalsCommand);
-        registerCommand(IridiumSkyblock.getCommands().removeCrystalsCommand);
         registerCommand(IridiumSkyblock.getCommands().worldBorderCommand);
         registerCommand(IridiumSkyblock.getCommands().setHomeCommand);
         registerCommand(IridiumSkyblock.getCommands().permissionsCommand);
         registerCommand(IridiumSkyblock.getCommands().transferCommand);
         registerCommand(IridiumSkyblock.getCommands().adminCommand);
-        registerCommand(IridiumSkyblock.getCommands().giveBoosterCommand);
         registerCommand(IridiumSkyblock.getCommands().banCommand);
         registerCommand(IridiumSkyblock.getCommands().unBanCommand);
         registerCommand(IridiumSkyblock.getCommands().coopCommand);
         registerCommand(IridiumSkyblock.getCommands().unCoopCommand);
         registerCommand(IridiumSkyblock.getCommands().setNameCommand);
-        registerCommand(IridiumSkyblock.getCommands().bankCommand);
         registerCommand(IridiumSkyblock.getCommands().chatCommand);
-        registerCommand(IridiumSkyblock.getCommands().giveUpgradeCommand);
-        if (IridiumSkyblock.getConfiguration().islandShop) registerCommand(IridiumSkyblock.getCommands().shopCommand);
         registerCommand(IridiumSkyblock.getCommands().biomeCommand);
         registerCommand(IridiumSkyblock.getCommands().helpCommand);
     }

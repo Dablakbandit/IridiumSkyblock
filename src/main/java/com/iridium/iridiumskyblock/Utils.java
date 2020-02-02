@@ -1,7 +1,6 @@
 package com.iridium.iridiumskyblock;
 
 import com.iridium.iridiumskyblock.configs.Inventories;
-import com.iridium.iridiumskyblock.configs.Missions;
 import com.iridium.iridiumskyblock.support.Vault;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -259,17 +258,14 @@ public class Utils {
                 new Placeholder("sizevaultcost", IridiumSkyblock.getUpgrades().sizeUpgrade.upgrades.containsKey(island.getSizeLevel() + 1) ? IridiumSkyblock.getUpgrades().sizeUpgrade.upgrades.get(island.getSizeLevel() + 1).vaultCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
                 new Placeholder("membervaultcost", IridiumSkyblock.getUpgrades().memberUpgrade.upgrades.containsKey(island.getMemberLevel() + 1) ? IridiumSkyblock.getUpgrades().memberUpgrade.upgrades.get(island.getMemberLevel() + 1).vaultCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
                 new Placeholder("warpvaultcost", IridiumSkyblock.getUpgrades().warpUpgrade.upgrades.containsKey(island.getWarpLevel() + 1) ? IridiumSkyblock.getUpgrades().warpUpgrade.upgrades.get(island.getWarpLevel() + 1).vaultCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
-                new Placeholder("oresvaultcost", IridiumSkyblock.getUpgrades().oresUpgrade.upgrades.containsKey(island.getOreLevel() + 1) ? IridiumSkyblock.getUpgrades().oresUpgrade.upgrades.get(island.getOreLevel() + 1).vaultCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
 
                 new Placeholder("sizecrystalscost", IridiumSkyblock.getUpgrades().sizeUpgrade.upgrades.containsKey(island.getSizeLevel() + 1) ? IridiumSkyblock.getUpgrades().sizeUpgrade.upgrades.get(island.getSizeLevel() + 1).crystalsCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
                 new Placeholder("membercrystalscost", IridiumSkyblock.getUpgrades().memberUpgrade.upgrades.containsKey(island.getMemberLevel() + 1) ? IridiumSkyblock.getUpgrades().memberUpgrade.upgrades.get(island.getMemberLevel() + 1).crystalsCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
                 new Placeholder("warpcrystalscost", IridiumSkyblock.getUpgrades().warpUpgrade.upgrades.containsKey(island.getWarpLevel() + 1) ? IridiumSkyblock.getUpgrades().warpUpgrade.upgrades.get(island.getWarpLevel() + 1).crystalsCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
-                new Placeholder("orescrystalscost", IridiumSkyblock.getUpgrades().oresUpgrade.upgrades.containsKey(island.getOreLevel() + 1) ? IridiumSkyblock.getUpgrades().oresUpgrade.upgrades.get(island.getOreLevel() + 1).crystalsCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
 
                 new Placeholder("sizecost", IridiumSkyblock.getUpgrades().sizeUpgrade.upgrades.containsKey(island.getSizeLevel() + 1) ? IridiumSkyblock.getUpgrades().sizeUpgrade.upgrades.get(island.getSizeLevel() + 1).crystalsCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
                 new Placeholder("membercost", IridiumSkyblock.getUpgrades().memberUpgrade.upgrades.containsKey(island.getMemberLevel() + 1) ? IridiumSkyblock.getUpgrades().memberUpgrade.upgrades.get(island.getMemberLevel() + 1).crystalsCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
                 new Placeholder("warpcost", IridiumSkyblock.getUpgrades().warpUpgrade.upgrades.containsKey(island.getWarpLevel() + 1) ? IridiumSkyblock.getUpgrades().warpUpgrade.upgrades.get(island.getWarpLevel() + 1).crystalsCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
-                new Placeholder("generatorcost", IridiumSkyblock.getUpgrades().oresUpgrade.upgrades.containsKey(island.getOreLevel() + 1) ? IridiumSkyblock.getUpgrades().oresUpgrade.upgrades.get(island.getOreLevel() + 1).crystalsCost + "" : IridiumSkyblock.getMessages().maxlevelreached),
 
                 new Placeholder("sizeblocks", IridiumSkyblock.getUpgrades().sizeUpgrade.upgrades.get(island.getSizeLevel()).size + ""),
                 new Placeholder("membercount", IridiumSkyblock.getUpgrades().memberUpgrade.upgrades.get(island.getMemberLevel()).size + ""),
@@ -277,44 +273,7 @@ public class Utils {
 
                 new Placeholder("sizelevel", island.getSizeLevel() + ""),
                 new Placeholder("memberlevel", island.getMemberLevel() + ""),
-                new Placeholder("warplevel", island.getWarpLevel() + ""),
-                new Placeholder("oreslevel", island.getOreLevel() + ""),
-                new Placeholder("generatorlevel", island.getOreLevel() + ""),
-                // Boosters
-                new Placeholder("spawnerbooster", island.getSpawnerBooster() + ""),
-                new Placeholder("farmingbooster", island.getFarmingBooster() + ""),
-                new Placeholder("expbooster", island.getExpBooster() + ""),
-                new Placeholder("flightbooster", island.getFlightBooster() + ""),
-
-                new Placeholder("spawnerbooster_seconds", island.getSpawnerBooster() % 60 + ""),
-                new Placeholder("farmingbooster_seconds", island.getFarmingBooster() % 60 + ""),
-                new Placeholder("expbooster_seconds", island.getExpBooster() % 60 + ""),
-                new Placeholder("flightbooster_seconds", island.getFlightBooster() % 60 + ""),
-                new Placeholder("spawnerbooster_minutes", (int) Math.floor(island.getSpawnerBooster() / 60.00) + ""),
-                new Placeholder("farmingbooster_minutes", (int) Math.floor(island.getFarmingBooster() / 60.00) + ""),
-                new Placeholder("expbooster_minutes", (int) Math.floor(island.getExpBooster() / 60.00) + ""),
-                new Placeholder("flightbooster_minutes", (int) Math.floor(island.getFlightBooster() / 60.00) + ""),
-                new Placeholder("spawnerbooster_crystalcost", IridiumSkyblock.getBoosters().spawnerBooster.crystalsCost + ""),
-                new Placeholder("farmingbooster_crystalcost", IridiumSkyblock.getBoosters().farmingBooster.crystalsCost + ""),
-                new Placeholder("expbooster_crystalcost", IridiumSkyblock.getBoosters().experianceBooster.crystalsCost + ""),
-                new Placeholder("flightbooster_crystalcost", IridiumSkyblock.getBoosters().flightBooster.crystalsCost + ""),
-                new Placeholder("spawnerbooster_vaultcost", IridiumSkyblock.getBoosters().spawnerBooster.vaultCost + ""),
-                new Placeholder("farmingbooster_vaultcost", IridiumSkyblock.getBoosters().farmingBooster.vaultCost + ""),
-                new Placeholder("expbooster_vaultcost", IridiumSkyblock.getBoosters().experianceBooster.vaultCost + ""),
-                new Placeholder("flightbooster_vaultcost", IridiumSkyblock.getBoosters().flightBooster.vaultCost + ""),
-
-                //Bank
-                new Placeholder("experience", island.exp + ""),
-                new Placeholder("crystals", island.getCrystals() + ""),
-                new Placeholder("money", island.money + "")));
-        //Status amount crystals vault
-        for (Missions.Mission mission : IridiumSkyblock.getMissions().missions) {
-            int amount = island.getMission(mission.name);
-            placeholders.add(new Placeholder(mission.name + "status", amount == Integer.MIN_VALUE ? "Completed" : amount + "/" + mission.amount));
-            placeholders.add(new Placeholder(mission.name + "amount", mission.amount + ""));
-            placeholders.add(new Placeholder(mission.name + "crystals", mission.crystalReward + ""));
-            placeholders.add(new Placeholder(mission.name + "vault", mission.vaultReward + ""));
-        }
+                new Placeholder("warplevel", island.getWarpLevel() + "")));
         return processMultiplePlaceholders(line, placeholders);
     }
 
@@ -339,102 +298,6 @@ public class Utils {
             line = placeholder.process(line);
         }
         return color(line);
-    }
-
-    public static void pay(Player p, int vault, int crystals) {
-        User u = User.getUser(p);
-        if (u.getIsland() != null) {
-            u.getIsland().setCrystals(u.getIsland().getCrystals() + crystals);
-            if (Vault.econ == null) {
-                u.getIsland().money += vault;
-            } else {
-                Vault.econ.depositPlayer(p, vault);
-            }
-        } else {
-            if (Vault.econ == null) {
-                IridiumSkyblock.getInstance().getLogger().warning("Vault plugin not found");
-                return;
-            }
-            Vault.econ.depositPlayer(p, vault);
-        }
-    }
-
-    public static boolean canBuy(Player p, int vault, int crystals) {
-        User u = User.getUser(p);
-        if (u.getIsland() != null) {
-            if (Vault.econ != null) {
-                boolean canbuy = (Vault.econ.getBalance(p) >= vault || u.getIsland().money >= vault) && u.getIsland().getCrystals() >= crystals;
-                if (canbuy) {
-                    u.getIsland().setCrystals(u.getIsland().getCrystals() - crystals);
-                    if (u.getIsland().money >= vault) {
-                        u.getIsland().money -= vault;
-                    } else {
-                        Vault.econ.withdrawPlayer(p, vault);
-                    }
-                }
-                return canbuy;
-            } else {
-                boolean canbuy = u.getIsland().getCrystals() >= crystals && vault == 0;
-                if (canbuy) {
-                    u.getIsland().setCrystals(u.getIsland().getCrystals() - crystals);
-                }
-                return canbuy;
-            }
-        } else if (crystals == 0 && Vault.econ != null) {
-            boolean canbuy = Vault.econ.getBalance(p) >= vault;
-            if (canbuy) {
-                Vault.econ.withdrawPlayer(p, vault);
-            }
-            return canbuy;
-        }
-        return false;
-    }
-
-    public static int getExpAtLevel(final int level) {
-        if (level <= 15) {
-            return (2 * level) + 7;
-        } else if (level <= 30) {
-            return (5 * level) - 38;
-        }
-        return (9 * level) - 158;
-    }
-
-    public static int getTotalExperience(final Player player) {
-        int exp = Math.round(getExpAtLevel(player.getLevel()) * player.getExp());
-        int currentLevel = player.getLevel();
-
-        while (currentLevel > 0) {
-            currentLevel--;
-            exp += getExpAtLevel(currentLevel);
-        }
-        if (exp < 0) {
-            exp = Integer.MAX_VALUE;
-        }
-        return exp;
-    }
-
-    public static void setTotalExperience(final Player player, final int exp) {
-        if (exp < 0) {
-            throw new IllegalArgumentException("Experience is negative!");
-        }
-        player.setExp(0);
-        player.setLevel(0);
-        player.setTotalExperience(0);
-
-        int amount = exp;
-        while (amount > 0) {
-            final int expToLevel = getExpAtLevel(player.getLevel());
-            amount -= expToLevel;
-            if (amount >= 0) {
-                // give until next level
-                player.giveExp(expToLevel);
-            } else {
-                // give the rest
-                amount += expToLevel;
-                player.giveExp(amount);
-                amount = 0;
-            }
-        }
     }
 
     public static class Placeholder {

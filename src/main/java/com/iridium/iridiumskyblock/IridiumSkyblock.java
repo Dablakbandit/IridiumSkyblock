@@ -33,14 +33,11 @@ public class IridiumSkyblock extends JavaPlugin {
 
     public static Config configuration;
     public static Messages messages;
-    public static Missions missions;
-    public static Upgrades upgrades;
-    public static Boosters boosters;
     public static Inventories inventories;
     public static Schematics schematics;
     public static Commands commands;
     public static BlockValues blockValues;
-    public static Shop shop;
+    public static Upgrades upgrades;
 
     private static Persist persist;
 
@@ -50,26 +47,18 @@ public class IridiumSkyblock extends JavaPlugin {
 
     public static TopGUI topGUI;
 
-    public static ShopGUI shopGUI;
-
     public static HashMap<Integer, VisitGUI> visitGUI;
 
     public boolean updatingBlocks = false;
 
     private String latest;
 
-    public static HashMap<Integer, List<String>> oreUpgradeCache = new HashMap<>();
-    public static HashMap<Integer, List<String>> netherOreUpgradeCache = new HashMap<>();
 
     public static SkyblockGenerator generator;
 
     public static WorldEdit worldEdit;
 
-    public static SettingsGUI settingsGUI;
-
     public List<String> languages = new ArrayList<>();
-
-    public LanguagesGUI languagesGUI;
 
     @Override
     public void onEnable() {
@@ -91,8 +80,6 @@ public class IridiumSkyblock extends JavaPlugin {
             commandManager = new CommandManager("island");
             commandManager.registerCommands();
 
-            settingsGUI = new SettingsGUI();
-
             if (Bukkit.getPluginManager().getPlugin("Vault") != null) new Vault();
             if (Bukkit.getPluginManager().isPluginEnabled("WildStacker")) new Wildstacker();
             if (Bukkit.getPluginManager().isPluginEnabled("MergedSpawner")) new MergedSpawners();
@@ -100,7 +87,6 @@ public class IridiumSkyblock extends JavaPlugin {
             if (Bukkit.getPluginManager().isPluginEnabled("EpicSpawners")) new EpicSpawners();
             if (Bukkit.getPluginManager().getPlugin("PlaceholderAPI") != null)
                 registerListeners(new onExpansionUnregister());
-            startCounting();
             getLanguages();
             Bukkit.getScheduler().runTask(this, () -> { // Call this a tick later to ensure all worlds are loaded
                 loadIslandManager();
@@ -112,10 +98,9 @@ public class IridiumSkyblock extends JavaPlugin {
                 Bukkit.getScheduler().scheduleSyncDelayedTask(IridiumSkyblock.getInstance(), IridiumSkyblock.getInstance()::islandValueManager);
 
                 topGUI = new TopGUI();
-                shopGUI = new ShopGUI();
                 visitGUI = new HashMap<>();
 
-                registerListeners(new onBlockPiston(), new onEntityPickupItem(), new onPlayerTalk(), new onItemCraft(), new onPlayerTeleport(), new onPlayerPortal(), new onBlockBreak(), new onBlockPlace(), new onClick(), new onBlockFromTo(), new onSpawnerSpawn(), new onEntityDeath(), new onPlayerJoinLeave(), new onBlockGrow(), new onPlayerTalk(), new onPlayerMove(), new onEntityDamageByEntity(), new onPlayerExpChange(), new onPlayerFish(), new onEntityExplode());
+                registerListeners(new onBlockPiston(), new onEntityPickupItem(), new onPlayerTalk(), new onPlayerTeleport(), new onPlayerPortal(), new onBlockBreak(), new onBlockPlace(), new onClick(), new onBlockFromTo(), new onPlayerJoinLeave(), new onPlayerTalk(), new onPlayerMove(), new onEntityDamageByEntity(),new onEntityExplode());
 
                 Bukkit.getScheduler().scheduleAsyncRepeatingTask(IridiumSkyblock.getInstance(), this::saveIslandManager, 0, 20 * 60);
 
@@ -189,7 +174,6 @@ public class IridiumSkyblock extends JavaPlugin {
             languages.clear();
             languages.add("English");
             languages.add("French");
-            languagesGUI = new LanguagesGUI();
         });
     }
 
@@ -304,41 +288,6 @@ public class IridiumSkyblock extends JavaPlugin {
         }
     }
 
-    public void startCounting() {
-        Calendar c = Calendar.getInstance();
-        c.add(Calendar.DAY_OF_MONTH, 1);
-        c.set(Calendar.HOUR_OF_DAY, 0);
-        c.set(Calendar.MINUTE, 0);
-        c.set(Calendar.SECOND, 0);
-        c.set(Calendar.MILLISECOND, 0);
-        new Timer().schedule(new TimerTask() {
-            public void run() {
-                if (getIslandManager() != null) {
-                    LocalDateTime ldt = LocalDateTime.now();
-                    if (ldt.getDayOfWeek().equals(DayOfWeek.MONDAY) && getConfiguration().missionRestart.equals(MissionRestart.Weekly) || getConfiguration().missionRestart.equals(MissionRestart.Daily)) {
-                        for (Island island : getIslandManager().islands.values()) {
-                            island.resetMissions();
-                        }
-                    }
-                    for (Island island : getIslandManager().islands.values()) {
-                        int cm = island.money;
-                        int cc = island.getCrystals();
-                        int ce = island.exp;
-                        island.money = (int) Math.floor(island.money * (1 + (getConfiguration().dailyMoneyInterest / 100.00)));
-                        island.setCrystals((int) Math.floor(island.getCrystals() * (1 + (getConfiguration().dailyCrystalsInterest / 100.00))));
-                        island.exp = (int) Math.floor(island.exp * (1 + (getConfiguration().dailyExpInterest / 100.00)));
-                        for (String member : island.getMembers()) {
-                            Player p = Bukkit.getPlayer(User.getUser(member).name);
-                            p.sendMessage(Utils.color(IridiumSkyblock.getMessages().islandInterest.replace("%exp%", island.exp - ce + "").replace("%crystals%", island.getCrystals() - cc + "").replace("%money%", island.money - cm + "").replace("%prefix%", IridiumSkyblock.getConfiguration().prefix)));
-                        }
-                    }
-                }
-                startCounting();
-            }
-
-        }, c.getTime());
-    }
-
     public void islandValueManager() {
         Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
             ListIterator<Integer> islands = new ArrayList<>(islandManager.islands.keySet()).listIterator();
@@ -449,79 +398,18 @@ public class IridiumSkyblock extends JavaPlugin {
 
     public boolean loadConfigs() {
         configuration = persist.getFile(Config.class).exists() ? persist.load(Config.class) : new Config();
-        missions = persist.getFile(Missions.class).exists() ? persist.load(Missions.class) : new Missions();
         messages = persist.getFile(Messages.class).exists() ? persist.load(Messages.class) : new Messages();
         upgrades = persist.getFile(Upgrades.class).exists() ? persist.load(Upgrades.class) : new Upgrades();
-        boosters = persist.getFile(Boosters.class).exists() ? persist.load(Boosters.class) : new Boosters();
         inventories = persist.getFile(Inventories.class).exists() ? persist.load(Inventories.class) : new Inventories();
         schematics = persist.getFile(Schematics.class).exists() ? persist.load(Schematics.class) : new Schematics();
         commands = persist.getFile(Commands.class).exists() ? persist.load(Commands.class) : new Commands();
         blockValues = persist.getFile(BlockValues.class).exists() ? persist.load(BlockValues.class) : new BlockValues();
-        shop = persist.getFile(Shop.class).exists() ? persist.load(Shop.class) : new Shop();
 
-        if (configuration == null || missions == null || messages == null || upgrades == null || boosters == null || inventories == null || schematics == null || commands == null || blockValues == null || shop == null) {
+        if (configuration == null || messages == null || inventories == null || schematics == null || commands == null || blockValues == null ) {
             return false;
         }
 
-        if (shop.shop == null) shop = new Shop();
-
-        if (getCommandManager() != null) {
-            if (getCommandManager().commands.contains(IridiumSkyblock.getCommands().shopCommand)) {
-                if (!configuration.islandShop)
-                    getCommandManager().unRegisterCommand(IridiumSkyblock.getCommands().shopCommand);
-            } else {
-                if (configuration.islandShop)
-                    getCommandManager().registerCommand(IridiumSkyblock.getCommands().shopCommand);
-            }
-        }
-
         getBlockValues().blockvalue.remove(MultiversionMaterials.AIR);
-
-        oreUpgradeCache.clear();
-        for (int i : getUpgrades().oresUpgrade.upgrades.keySet()) {
-            ArrayList<String> items = new ArrayList<>();
-            for (String item : getUpgrades().oresUpgrade.upgrades.get(i).ores) {
-                if (item != null) {
-                    int i1 = Integer.parseInt(item.split(":")[1]);
-                    for (int a = 0; a <= i1; a++) {
-                        items.add(item.split(":")[0]);
-                    }
-                } else {
-                    getUpgrades().oresUpgrade.upgrades.get(i).ores.remove(null);
-                }
-            }
-            oreUpgradeCache.put(i, items);
-        }
-
-        netherOreUpgradeCache.clear();
-        for (int i : getUpgrades().oresUpgrade.upgrades.keySet()) {
-            ArrayList<String> items = new ArrayList<>();
-            for (String item : getUpgrades().oresUpgrade.upgrades.get(i).netherores) {
-                if (item != null) {
-                    int i1 = Integer.parseInt(item.split(":")[1]);
-                    for (int a = 0; a <= i1; a++) {
-                        items.add(item.split(":")[0]);
-                    }
-                } else {
-                    getUpgrades().oresUpgrade.upgrades.get(i).netherores.remove(null);
-                }
-            }
-            netherOreUpgradeCache.put(i, items);
-        }
-
-        if (getBoosters().flightBooster.time == 0) getBoosters().flightBooster.time = 3600;
-        if (getBoosters().experianceBooster.time == 0) getBoosters().experianceBooster.time = 3600;
-        if (getBoosters().farmingBooster.time == 0) getBoosters().farmingBooster.time = 3600;
-        if (getBoosters().spawnerBooster.time == 0) getBoosters().spawnerBooster.time = 3600;
-
-        if (getBoosters().spawnerBooster.crystalsCost == 0 && getBoosters().spawnerBooster.vaultCost == 0)
-            getBoosters().spawnerBooster.crystalsCost = 15;
-        if (getBoosters().farmingBooster.crystalsCost == 0 && getBoosters().farmingBooster.vaultCost == 0)
-            getBoosters().farmingBooster.crystalsCost = 15;
-        if (getBoosters().experianceBooster.crystalsCost == 0 && getBoosters().experianceBooster.vaultCost == 0)
-            getBoosters().experianceBooster.crystalsCost = 15;
-        if (getBoosters().flightBooster.crystalsCost == 0 && getBoosters().flightBooster.vaultCost == 0)
-            getBoosters().flightBooster.crystalsCost = 15;
 
         if (getConfiguration().blockvalue != null) {
             getBlockValues().blockvalue = (HashMap<MultiversionMaterials, Integer>) getConfiguration().blockvalue.clone();
@@ -555,15 +443,11 @@ public class IridiumSkyblock extends JavaPlugin {
     public void saveConfigs() {
         Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
             if (configuration != null) persist.save(configuration);
-            if (missions != null) persist.save(missions);
             if (messages != null) persist.save(messages);
-            if (upgrades != null) persist.save(upgrades);
-            if (boosters != null) persist.save(boosters);
             if (inventories != null) persist.save(inventories);
             if (schematics != null) persist.save(schematics);
             if (commands != null) persist.save(commands);
             if (blockValues != null) persist.save(blockValues);
-            if (shop != null) persist.save(shop);
         });
     }
 
@@ -581,10 +465,6 @@ public class IridiumSkyblock extends JavaPlugin {
 
     public static Config getConfiguration() {
         return configuration;
-    }
-
-    public static Missions getMissions() {
-        return missions;
     }
 
     public static CommandManager getCommandManager() {
@@ -612,24 +492,12 @@ public class IridiumSkyblock extends JavaPlugin {
         return commands;
     }
 
-    public static Boosters getBoosters() {
-        return boosters;
-    }
-
     public static Schematics getSchematics() {
         return schematics;
     }
 
     public static Inventories getInventories() {
         return inventories;
-    }
-
-    public static ShopGUI getShopGUI() {
-        return shopGUI;
-    }
-
-    public static Shop getShop() {
-        return shop;
     }
 
     public static Persist getPersist() {

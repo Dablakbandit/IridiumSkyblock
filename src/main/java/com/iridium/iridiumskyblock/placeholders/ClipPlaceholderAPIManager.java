@@ -55,32 +55,14 @@ public class ClipPlaceholderAPIManager extends PlaceholderExpansion {
                 return user.getIsland() != null ? User.getUser(user.getIsland().getOwner()).name : "N/A";
             case "island_name":
                 return user.getIsland() != null ? user.getIsland().getName() : "N/A";
-            case "island_crystals":
-                return user.getIsland() != null ? NumberFormat.getInstance().format(user.getIsland().getCrystals()) + "" : "N/A";
             case "island_members":
                 return user.getIsland() != null ? user.getIsland().getMembers().size() + "" : "N/A";
             case "island_upgrade_member_level":
                 return user.getIsland() != null ? NumberFormat.getInstance().format(user.getIsland().getMemberLevel()) + "" : "N/A";
-            case "island_upgrade_member_amount":
-                return user.getIsland() != null ? IridiumSkyblock.getUpgrades().memberUpgrade.upgrades.get(user.getIsland().getMemberLevel()).size + "" : "N/A";
             case "island_upgrade_size_level":
                 return user.getIsland() != null ? user.getIsland().getSizeLevel() + "" : "N/A";
-            case "island_upgrade_ore_level":
-                return user.getIsland() != null ? user.getIsland().getOreLevel() + "" : "N/A";
             case "island_upgrade_warp_level":
                 return user.getIsland() != null ? user.getIsland().getWarpLevel() + "" : "N/A";
-            case "island_booster_spawner":
-                return user.getIsland() != null ? user.getIsland().getSpawnerBooster() + "" : "N/A";
-            case "island_booster_exp":
-                return user.getIsland() != null ? user.getIsland().getExpBooster() + "" : "N/A";
-            case "island_booster_farming":
-                return user.getIsland() != null ? user.getIsland().getFarmingBooster() + "" : "N/A";
-            case "island_booster_flight":
-                return user.getIsland() != null ? user.getIsland().getFlightBooster() + "" : "N/A";
-            case "island_bank_vault":
-                return user.getIsland() != null ? user.getIsland().money + "" : "N/A";
-            case "island_bank_experience":
-                return user.getIsland() != null ? user.getIsland().exp + "" : "N/A";
             case "island_biome":
                 return user.getIsland() != null ? user.getIsland().getBiome().name() + "" : "N/A";
         }

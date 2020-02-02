@@ -4,7 +4,6 @@ import com.earth2me.essentials.Essentials;
 import com.earth2me.essentials.spawn.EssentialsSpawn;
 import com.iridium.iridiumskyblock.api.IslandCreateEvent;
 import com.iridium.iridiumskyblock.api.IslandDeleteEvent;
-import com.iridium.iridiumskyblock.configs.Missions;
 import com.iridium.iridiumskyblock.configs.Schematics;
 import com.iridium.iridiumskyblock.gui.*;
 import com.iridium.iridiumskyblock.support.EpicSpawners;
@@ -58,9 +57,6 @@ public class Island {
     private Location home;
     private Location netherhome;
 
-    private transient UpgradeGUI upgradeGUI;
-    private transient BoosterGUI boosterGUI;
-    private transient MissionsGUI missionsGUI;
     private transient MembersGUI membersGUI;
     private transient WarpGUI warpGUI;
     private transient BorderColorGUI borderColorGUI;
@@ -68,24 +64,13 @@ public class Island {
     private transient PermissionsGUI permissionsGUI;
     private transient IslandMenuGUI islandMenuGUI;
     private transient CoopGUI coopGUI;
-    private transient BankGUI bankGUI;
     private transient BiomeGUI biomeGUI;
 
     private int id;
 
-    private int spawnerBooster;
-    private int farmingBooster;
-    private int expBooster;
-    private int flightBooster;
-
-    private int boosterid;
-
-    private int crystals;
-
     private int sizeLevel;
     private int memberLevel;
     private int warpLevel;
-    private int oreLevel;
 
     private int a;
 
@@ -99,8 +84,6 @@ public class Island {
     private List<Warp> warps;
 
     private int startvalue;
-
-    private HashMap<String, Integer> missions = new HashMap<>();
 
     private boolean visit;
 
@@ -119,9 +102,6 @@ public class Island {
     public transient HashSet<Integer> coopInvites;
 
     private String name;
-
-    public int money;
-    public int exp;
 
     public Biome biome;
 
@@ -143,15 +123,9 @@ public class Island {
         this.netherhome = netherhome;
         this.members = new HashSet<>(Collections.singletonList(user.player));
         this.id = id;
-        spawnerBooster = 0;
-        farmingBooster = 0;
-        expBooster = 0;
-        flightBooster = 0;
-        crystals = 0;
         sizeLevel = 1;
         memberLevel = 1;
         warpLevel = 1;
-        oreLevel = 1;
         value = 0;
         warps = new ArrayList<>();
         startvalue = -1;
@@ -163,47 +137,6 @@ public class Island {
         this.votes = new HashSet<>();
         init();
         Bukkit.getPluginManager().callEvent(new IslandCreateEvent(owner, this));
-    }
-
-    public void resetMissions() {
-        if (missions == null) missions = new HashMap<>();
-        missions.clear();
-    }
-
-    public int getMission(String mission) {
-        if (missions == null) missions = new HashMap<>();
-        if (!missions.containsKey(mission)) missions.put(mission, 0);
-        return missions.get(mission);
-    }
-
-    public void addMission(String mission, int amount) {
-        if (missions == null) missions = new HashMap<>();
-        if (!missions.containsKey(mission)) missions.put(mission, 0);
-        if (missions.get(mission) == Integer.MIN_VALUE) return;
-        missions.put(mission, missions.get(mission) + amount);
-        for (Missions.Mission m : IridiumSkyblock.getMissions().missions) {
-            if (m.name.equals(mission)) {
-                if (m.amount <= missions.get(mission)) {
-                    completeMission(m);
-                }
-                break;
-            }
-        }
-    }
-
-    public void setMission(String mission, int amount) {
-        if (missions == null) missions = new HashMap<>();
-        if (!missions.containsKey(mission)) missions.put(mission, 0);
-        if (missions.get(mission) == Integer.MIN_VALUE) return;
-        missions.put(mission, amount);
-        for (Missions.Mission m : IridiumSkyblock.getMissions().missions) {
-            if (m.name.equals(mission)) {
-                if (m.amount <= missions.get(mission)) {
-                    completeMission(m);
-                }
-                break;
-            }
-        }
     }
 
     public Permissions getPermissions(Role role) {
@@ -241,19 +174,6 @@ public class Island {
         NMSUtils.sendWorldBorder(p, borderColor, Integer.MAX_VALUE, getCenter().clone());
     }
 
-    public void completeMission(Missions.Mission mission) {
-        missions.put(mission.name, (IridiumSkyblock.getConfiguration().missionRestart == MissionRestart.Instantly ? 0 : Integer.MIN_VALUE));
-        this.crystals += mission.crystalReward;
-        money += mission.vaultReward;
-        for (String member : members) {
-            Player p = Bukkit.getPlayer(User.getUser(member).name);
-            if (p != null) {
-                NMSUtils.sendTitle(p, IridiumSkyblock.getMessages().missionComplete.replace("%mission%", mission.name), 20, 40, 20);
-                NMSUtils.sendSubTitle(p, IridiumSkyblock.getMessages().rewards.replace("%crystalsReward%", mission.crystalReward + "").replace("%vaultReward%", mission.vaultReward + ""), 20, 40, 20);
-            }
-        }
-    }
-
     public void calculateIslandValue() {
         if (blocks == null) blocks = new ArrayList<>();
         if (blocks.hashCode() == lastblocks) return;
@@ -287,11 +207,6 @@ public class Island {
         }
         this.value = value;
         if (startvalue == -1) startvalue = value;
-        for (Missions.Mission mission : IridiumSkyblock.getMissions().missions) {
-            if (mission.type.equals(MissionType.VALUE_INCREASE)) {
-                setMission(mission.name, value - startvalue);
-            }
-        }
         lastblocks = blocks.hashCode();
     }
 
@@ -414,9 +329,6 @@ public class Island {
 
         blocks = new ArrayList<>(new HashSet<>(blocks));
 
-        upgradeGUI = new UpgradeGUI(this);
-        boosterGUI = new BoosterGUI(this);
-        missionsGUI = new MissionsGUI(this);
         membersGUI = new MembersGUI(this);
         warpGUI = new WarpGUI(this);
         borderColorGUI = new BorderColorGUI(this);
@@ -424,28 +336,9 @@ public class Island {
         permissionsGUI = new PermissionsGUI(this);
         islandMenuGUI = new IslandMenuGUI(this);
         coopGUI = new CoopGUI(this);
-        bankGUI = new BankGUI(this);
         biomeGUI = new BiomeGUI(this);
         failedGenerators = new HashSet<>();
         coopInvites = new HashSet<>();
-        boosterid = Bukkit.getScheduler().scheduleAsyncRepeatingTask(IridiumSkyblock.getInstance(), () -> {
-            if (spawnerBooster > 0) spawnerBooster--;
-            if (farmingBooster > 0) farmingBooster--;
-            if (expBooster > 0) expBooster--;
-            if (flightBooster == 1) {
-                for (String player : members) {
-                    Player p = Bukkit.getPlayer(player);
-                    if (p != null) {
-                        if (!p.hasPermission("IridiumSkyblock.Fly") && p.getGameMode().equals(GameMode.SURVIVAL)) {
-                            p.setAllowFlight(false);
-                            p.setFlying(false);
-                            User.getUser(p).flying = false;
-                        }
-                    }
-                }
-            }
-            if (flightBooster > 0) flightBooster--;
-        }, 0, 20);
         if (permissions == null) {
             permissions = new HashMap<Role, Permissions>() {{
                 for (Role role : Role.values()) {
@@ -727,14 +620,10 @@ public class Island {
         Bukkit.getPluginManager().callEvent(new IslandDeleteEvent(this));
 
         Bukkit.getScheduler().cancelTask(getMembersGUI().scheduler);
-        Bukkit.getScheduler().cancelTask(getBoosterGUI().scheduler);
-        Bukkit.getScheduler().cancelTask(getMissionsGUI().scheduler);
-        Bukkit.getScheduler().cancelTask(getUpgradeGUI().scheduler);
         Bukkit.getScheduler().cancelTask(getWarpGUI().scheduler);
         Bukkit.getScheduler().cancelTask(getPermissionsGUI().scheduler);
         Bukkit.getScheduler().cancelTask(getIslandMenuGUI().scheduler);
         Bukkit.getScheduler().cancelTask(getCoopGUI().scheduler);
-        Bukkit.getScheduler().cancelTask(getBankGUI().scheduler);
         if (genearteID != -1) Bukkit.getScheduler().cancelTask(genearteID);
         permissions.clear();
         if (a != -1) Bukkit.getScheduler().cancelTask(a);
@@ -759,8 +648,6 @@ public class Island {
         IridiumSkyblock.getIslandManager().islands.remove(this.id);
         this.id = 0;
         IridiumSkyblock.getInstance().saveConfigs();
-        Bukkit.getScheduler().cancelTask(boosterid);
-        boosterid = -1;
     }
 
     public void removeBan(User user) {
@@ -1012,28 +899,12 @@ public class Island {
         return biomeGUI;
     }
 
-    public BankGUI getBankGUI() {
-        return bankGUI;
-    }
-
     public CoopGUI getCoopGUI() {
         return coopGUI;
     }
 
-    public UpgradeGUI getUpgradeGUI() {
-        return upgradeGUI;
-    }
-
-    public BoosterGUI getBoosterGUI() {
-        return boosterGUI;
-    }
-
     public SchematicSelectGUI getSchematicSelectGUI() {
         return schematicSelectGUI;
-    }
-
-    public MissionsGUI getMissionsGUI() {
-        return missionsGUI;
     }
 
     public MembersGUI getMembersGUI() {
@@ -1054,46 +925,6 @@ public class Island {
 
     public BorderColorGUI getBorderColorGUI() {
         return borderColorGUI;
-    }
-
-    public int getSpawnerBooster() {
-        return spawnerBooster;
-    }
-
-    public void setSpawnerBooster(int spawnerBooster) {
-        this.spawnerBooster = spawnerBooster;
-    }
-
-    public int getFarmingBooster() {
-        return farmingBooster;
-    }
-
-    public void setFarmingBooster(int farmingBooster) {
-        this.farmingBooster = farmingBooster;
-    }
-
-    public int getExpBooster() {
-        return expBooster;
-    }
-
-    public void setExpBooster(int expBooster) {
-        this.expBooster = expBooster;
-    }
-
-    public int getFlightBooster() {
-        return flightBooster;
-    }
-
-    public void setFlightBooster(int flightBooster) {
-        this.flightBooster = flightBooster;
-    }
-
-    public int getCrystals() {
-        return crystals;
-    }
-
-    public void setCrystals(int crystals) {
-        this.crystals = crystals;
     }
 
     public HashSet<String> getMembers() {
@@ -1126,14 +957,6 @@ public class Island {
 
     public void setWarpLevel(int warpLevel) {
         this.warpLevel = warpLevel;
-    }
-
-    public int getOreLevel() {
-        return oreLevel;
-    }
-
-    public void setOreLevel(int oreLevel) {
-        this.oreLevel = oreLevel;
     }
 
     public void removeWarp(Warp warp) {

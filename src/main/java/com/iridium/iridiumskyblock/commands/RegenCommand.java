@@ -37,18 +37,9 @@ public class RegenCommand extends Command {
                                 }
                                 user.getIsland().pasteSchematic(true);
                                 if (IridiumSkyblock.getConfiguration().restartUpgradesOnRegen) {
-                                    user.getIsland().resetMissions();
                                     user.getIsland().setSizeLevel(1);
                                     user.getIsland().setMemberLevel(1);
                                     user.getIsland().setWarpLevel(1);
-                                    user.getIsland().setOreLevel(1);
-                                    user.getIsland().setFlightBooster(0);
-                                    user.getIsland().setExpBooster(0);
-                                    user.getIsland().setFarmingBooster(0);
-                                    user.getIsland().setSpawnerBooster(0);
-                                    user.getIsland().setCrystals(0);
-                                    user.getIsland().exp = 0;
-                                    user.getIsland().money = 0;
                                 }
                             }, IridiumSkyblock.getMessages().resetAction).getInventory());
                         } else {

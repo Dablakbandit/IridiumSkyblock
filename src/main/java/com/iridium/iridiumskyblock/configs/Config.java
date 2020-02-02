@@ -1,6 +1,5 @@
 package com.iridium.iridiumskyblock.configs;
 
-import com.iridium.iridiumskyblock.MissionRestart;
 import com.iridium.iridiumskyblock.MultiversionMaterials;
 import com.iridium.iridiumskyblock.Permissions;
 import com.iridium.iridiumskyblock.Role;
@@ -49,7 +48,6 @@ public class Config {
     public double dailyExpInterest = 0.01;
     public Biome defaultBiome = Biome.PLAINS;
     public Biome netherBiome;
-    public MissionRestart missionRestart = MissionRestart.Daily;
     public HashMap<Role, Permissions> defaultPermissions = new HashMap<Role, Permissions>() {{
         for (Role role : Role.values()) {
             if (role == Role.Visitor) {

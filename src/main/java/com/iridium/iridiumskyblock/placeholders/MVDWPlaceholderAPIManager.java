@@ -61,15 +61,6 @@ public class MVDWPlaceholderAPIManager {
             return user.getIsland() != null ? user.getIsland().getName() : "N/A";
         });
 
-        PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_crystals", e -> {
-            Player player = e.getPlayer();
-            if (player == null) {
-                return "N/A";
-            }
-            User user = User.getUser(player);
-            return user.getIsland() != null ? NumberFormat.getInstance().format(user.getIsland().getCrystals()) + "" : "N/A";
-        });
-
         PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_members", e -> {
             Player player = e.getPlayer();
             if (player == null) {
@@ -88,15 +79,6 @@ public class MVDWPlaceholderAPIManager {
             return user.getIsland() != null ? user.getIsland().getMemberLevel() + "" : "N/A";
         });
 
-        PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_upgrade_member_amount", e -> {
-            Player player = e.getPlayer();
-            if (player == null) {
-                return "N/A";
-            }
-            User user = User.getUser(player);
-            return user.getIsland() != null ? IridiumSkyblock.getUpgrades().memberUpgrade.upgrades.get(user.getIsland().getMemberLevel()).size + "" : "N/A";
-        });
-
         PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_upgrade_size_level", e -> {
             Player player = e.getPlayer();
             if (player == null) {
@@ -106,15 +88,6 @@ public class MVDWPlaceholderAPIManager {
             return user.getIsland() != null ? user.getIsland().getSizeLevel() + "" : "N/A";
         });
 
-        PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_upgrade_ore_level", e -> {
-            Player player = e.getPlayer();
-            if (player == null) {
-                return "N/A";
-            }
-            User user = User.getUser(player);
-            return user.getIsland() != null ? user.getIsland().getOreLevel() + "" : "N/A";
-        });
-
         PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_upgrade_warp_level", e -> {
             Player player = e.getPlayer();
             if (player == null) {
@@ -122,60 +95,6 @@ public class MVDWPlaceholderAPIManager {
             }
             User user = User.getUser(player);
             return user.getIsland() != null ? user.getIsland().getWarpLevel() + "" : "N/A";
-        });
-
-        PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_booster_spawner", e -> {
-            Player player = e.getPlayer();
-            if (player == null) {
-                return "N/A";
-            }
-            User user = User.getUser(player);
-            return user.getIsland() != null ? user.getIsland().getSpawnerBooster() + "" : "N/A";
-        });
-
-        PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_booster_exp", e -> {
-            Player player = e.getPlayer();
-            if (player == null) {
-                return "N/A";
-            }
-            User user = User.getUser(player);
-            return user.getIsland() != null ? user.getIsland().getExpBooster() + "" : "N/A";
-        });
-
-        PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_booster_farming", e -> {
-            Player player = e.getPlayer();
-            if (player == null) {
-                return "N/A";
-            }
-            User user = User.getUser(player);
-            return user.getIsland() != null ? user.getIsland().getFarmingBooster() + "" : "N/A";
-        });
-
-        PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_booster_flight", e -> {
-            Player player = e.getPlayer();
-            if (player == null) {
-                return "N/A";
-            }
-            User user = User.getUser(player);
-            return user.getIsland() != null ? user.getIsland().getFlightBooster() + "" : "N/A";
-        });
-
-        PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_bank_vault", e -> {
-            Player player = e.getPlayer();
-            if (player == null) {
-                return "N/A";
-            }
-            User user = User.getUser(player);
-            return user.getIsland() != null ? user.getIsland().money + "" : "N/A";
-        });
-
-        PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_bank_experience", e -> {
-            Player player = e.getPlayer();
-            if (player == null) {
-                return "N/A";
-            }
-            User user = User.getUser(player);
-            return user.getIsland() != null ? user.getIsland().exp + "" : "N/A";
         });
 
         PlaceholderAPI.registerPlaceholder(IridiumSkyblock.getInstance(), "iridiumskyblock_island_biome", e -> {

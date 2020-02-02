@@ -18,39 +18,6 @@ import java.util.*;
 public class onBlockFromTo implements Listener {
 
     @EventHandler
-    public void onBlockFromTo(BlockFromToEvent e) {
-        if (!IridiumSkyblock.getUpgrades().oresUpgrade.enabled) return;
-        try {
-            if (e.getFace() != BlockFace.DOWN) {
-                Block b = e.getToBlock();
-                Location fromLoc = b.getLocation();
-                Bukkit.getScheduler().runTask(IridiumSkyblock.getInstance(), () -> {
-                    if (b.getType().equals(Material.COBBLESTONE) || b.getType().equals(Material.STONE)) {
-                        if (!isSurroundedByWater(fromLoc)) {
-                            return;
-                        }
-
-                        Island island = IridiumSkyblock.getIslandManager().getIslandViaLocation(fromLoc);
-                        if (island != null) {
-                            Random r = new Random();
-                            ArrayList<String> items = new ArrayList<>(e.getBlock().getLocation().getWorld().equals(IridiumSkyblock.getIslandManager().getWorld()) ? IridiumSkyblock.oreUpgradeCache.get(island.getOreLevel()) : IridiumSkyblock.netherOreUpgradeCache.get(island.getOreLevel()));
-                            String item = items.get(r.nextInt(items.size()));
-                            MultiversionMaterials material = MultiversionMaterials.fromString(item);
-                            if (material == null) return;
-                            e.setCancelled(true);
-                            b.setType(material.parseMaterial());
-                            b.setData((byte) material.data);
-                            b.getState().update(true);
-                        }
-                    }
-                });
-            }
-        } catch (Exception ex) {
-            IridiumSkyblock.getInstance().sendErrorMessage(ex);
-        }
-    }
-
-    @EventHandler
     public void onObsidianGen(BlockFormEvent e) {
         if (e.getNewState().getType().equals(Material.OBSIDIAN)) {
             Island island = IridiumSkyblock.getIslandManager().getIslandViaLocation(e.getBlock().getLocation());
